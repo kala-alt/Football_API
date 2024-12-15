@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Approve New Admin</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+
+        <form method="post" th:action="@{/approvedNewAdmin}">
+
+            <label>Username: <span th:text="${accountModel.username}"></span></label>
+            <label>Email: <span th:text="${accountModel.email}"></span></label>
+            
+            <button type="submit">Promote to Admin</button>
+        </form>
+
+        
+        <style>
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 75%;
+                margin: auto;
+                padding: auto;
+            }
+        </style>
+    </body>
+
+</html>

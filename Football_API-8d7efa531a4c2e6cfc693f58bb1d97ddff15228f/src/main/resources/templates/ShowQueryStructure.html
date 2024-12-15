@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Show Query Structures</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Query pattern</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/matchesData?api_key=your_api_key</td>
+                        <td>Full db records for all matches!</td>
+                    </tr>
+                    <tr>
+                        <td>/playersData?api_key=your_api_key</td>
+                        <td>Full db records for all players!</td>
+                    </tr>
+                    <tr>
+                        <td>/teamsData?api_key=your_api_key</td>
+                        <td>Full db records for all teams!</td>
+                    </tr>
+                    <tr>
+                        <td>/leaguesData?api_key=your_api_key</td>
+                        <td>Full db records for all leagues!</td>
+                    </tr>
+                </tbody>
+            </table>
+    </body>
+
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: auto;
+            margin-top: 10%;
+        }
+
+        thead{
+            font-size: 40px;
+        }
+
+        tbody{
+            font-size: 25px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f4f4f4; 
+            text-align: left; 
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; 
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; 
+        }
+    </style>
+</html>

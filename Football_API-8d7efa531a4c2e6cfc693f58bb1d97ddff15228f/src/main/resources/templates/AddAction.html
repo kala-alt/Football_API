@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add Action</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+        
+        <form th:if="${userAdmin}" th:action="@{/matchDetails}" method="get" th:object="${eventEntity}">
+
+            <input style="display: none;" type="text" name="id" th:value="${matchId}" />    
+            <fieldset>
+                <label>    
+                    <img for="goal" th:src="@{/goal.png}" alt="LoginImage">
+                    <input type="radio" id="goal" value="goal" name="action" th:field="*{type}" required>
+                    <label for="goal">Goal</label>
+                </label>
+
+                <label>    
+                    <img for="yellow_card" th:src="@{/yellowCard.png}" alt="LoginImage">
+                    <input type="radio" id="yellow_card" value="yellow_card" th:field="*{type}" name="action">
+                    <label for="yellow_card">Yellow card</label>
+                </label>
+
+                <label>    
+                    <img for="red_card" th:src="@{/redCard.png}" alt="LoginImage">
+                    <input type="radio" id="red_card" value="red_card" th:field="*{type}" name="action">
+                    <label for="red_card">Red card</label>
+                </label>
+            </fieldset>
+
+        <div class="matchInfo">
+            <label for="minute">Minute</label>
+            <input type="number" th:field="*{minute}" required>
+
+            <label for="player">Player</label>
+            <input type="text" list="players" id="playerInput" th:field="*{player}" required oninput="setPlayerId()">
+            <input type="hidden" name="playerId" id="playerId">
+        </div>
+            <datalist id="players">
+                <option th:each="p : ${players}" 
+                        th:value="${p.first_name} + ' ' + ${p.last_name}" 
+                        th:data-id="${p.playerId}"
+                        th:text="'(' + ${p.team} + ')'"></option>
+            </datalist>
+
+            <button type="submit">Add action</button>
+
+            </form>
+
+            <div th:unless="${userAdmin}" id="SessionExpired">Your session expired! Please Login!</div>
+            <script>
+                function setPlayerId() {
+                    const inputValue = document.getElementById('playerInput').value;
+
+                    // Initialize a variable to store the data-id
+                    let playerId = '';
+
+                    // Loop through each option to find a match
+                    document.querySelectorAll('#players option').forEach(option => {
+                        if (option.value === inputValue) {
+                            document.getElementById('playerId').value = option.getAttribute('data-id');
+                            return;
+                        }
+                    });
+                }
+            </script>
+
+
+        <style>
+            
+            #SessionExpired{
+                display: block;
+                text-align: center;
+                margin-top: 10%;
+                font-size: 50px;
+                color: red;
+            }
+
+            img{
+                width: 65px;
+            }
+
+            fieldset{
+                display: flex;
+                justify-content: space-evenly;
+                border: none;
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            form{
+                font-size: 40px;
+            }
+
+            form input{
+                font-size: 25px;
+            }
+
+            form label{
+                margin-left: 5px;
+            }
+
+            button{
+                display: block;
+                margin-left: 30px;
+                margin-top: 30px;
+                font-size: 20px;
+            }
+
+            @media screen and (max-width: 768px){
+
+            form{
+                font-size: 25px;
+            }
+
+            form input{
+                font-size: 15px;
+            }
+
+            .matchInfo{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+            }
+
+            }
+
+        </style>
+    </body>
+
+</html>

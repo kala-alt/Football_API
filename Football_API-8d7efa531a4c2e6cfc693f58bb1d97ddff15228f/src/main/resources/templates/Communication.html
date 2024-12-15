@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Approve New Admin</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+
+        <form method="get" th:action="@{/sendCorrespondenceEmails}">
+
+            <label for="Subject">Subject:</label>
+            <input type="text"name="Title">
+
+            <label for="message">Message:</label>
+            <textarea name="MessageContent" id="message"></textarea>
+            
+            <label for="options">Send to:</label>
+            <select id="options" name="SendTo">
+                <option value="Main Admin">Main Admin</option>
+                <option value="Admins">Admins</option>
+                <option value="All Users">All Users and Admins</option>
+            </select>
+
+            <button type="submit">Send</button>
+        </form>
+
+        
+        <style>
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 75%;
+                margin: auto;
+                padding: auto;
+            }
+
+            input{
+                font-size: 25px;
+            }
+
+            label{
+                margin-top: 5px;
+                font-size: 30px;
+            }
+
+            button{
+                height: 30px;
+                font-size: 25px;
+                margin-top: 10px;
+            }
+        </style>
+    </body>
+
+</html>

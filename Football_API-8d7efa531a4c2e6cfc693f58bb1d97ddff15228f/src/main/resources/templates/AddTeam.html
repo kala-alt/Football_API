@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add Team</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 75%;
+            margin: auto;
+            padding: auto;
+        }
+
+
+        #SessionExpired{
+            display: block;
+            text-align: center;
+            margin-top: 10%;
+            font-size: 50px;
+            color: red;
+        }
+
+
+        input{
+            font-size: 25px;
+        }
+
+        label{
+            margin-top: 5пь;
+            font-size: 30px;
+        }
+
+        button{
+            height: 30px;
+            font-size: 25px;
+            margin-top: 10px;
+        }
+
+        #ErrorLabel{
+            margin: auto;
+            text-align: center;
+            color: red;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{header :: common-header}" ></div>
+
+    <label id="ErrorLabel" th:if="${message != null}" th:value="${message}"></label>
+
+    <form th:if="${userAdmin}" method="post" th:action="@{/allEvents(type=${'addTeam'})}" th:object="${teamEntity}" enctype="multipart/form-data">
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" id="name" required>
+
+        <label for="standing">Standing</label>
+        <input type="number" th:field="*{standing}" id="standing" required>
+
+        <label for="city">City</label>
+        <input type="text" th:field="*{city}" id="city" required>
+
+        <label for="league_name">League name</label>
+        <input type="text" list="leagues" th:field="*{league_name}" id="league_name" required oninput="setLeagueId('league_name', 'leagueId')">
+
+        <input type="hidden" th:field="*{league_id}" id="leagueId">
+    
+        <datalist id="leagues">
+            <option  th:each="l : ${leagues}" th:value="${l.getName()}"  th:data-id="${l.getId()}" th:text="${l.getName() + ' (' + l.getCountry() + ')'}"></option>
+        </datalist>
+
+        <label for="playedMatches">Played matches</label>
+        <input type="number" th:field="*{playedMatches}" id="playedMatches" required>
+
+        <label for="scoredGoals">Scored goals</label>
+        <input type="number" th:field="*{scoredGoals}" id="scoredGoals" required>
+
+        <label for="concededGoals">Conceded goals</label>
+        <input type="number" th:field="*{concededGoals}" id="concededGoals" required>
+
+        <label for="NumYellowCards">Yellow cards</label>
+        <input type="number" th:field="*{NumYellowCards}" id="NumYellowCards" required>
+
+        <label for="NumRedCards">Red cards</label>
+        <input type="number" th:field="*{NumRedCards}" id="NumRedCards" required>
+
+        <label for="logo_img">Team Logo</label>
+        <input type="file" id="logo_img" name="pictureFile" accept="image/*" required>
+
+        <label for="stadium">Stadium</label>
+        <input type="text" th:field="*{stadium}" id="stadium" required>
+
+        <button type="submit">Add</button>
+    </form>
+
+    <div th:unless="${userAdmin}" id="SessionExpired">Your session expired! Please Login!</div>
+
+    <script>
+        function setLeagueId(leagueName, idField) {
+                    const inputValue = document.getElementById(leagueName).value;
+
+                    document.querySelectorAll('#leagues option').forEach(option => {
+                        if (option.value === inputValue) {
+                            document.getElementById(idField).value = option.getAttribute('data-id');
+                            return;
+                        }
+                    });
+                }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Null Month Queries</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+        <div>
+            <form action="#" th:action="@{/{type}(type=${type})}" method="get" enctype="multipart/form-data">
+                <label for="verCode">Enter your code: </label>
+                <input type="number" name="inputCode">
+                <button>Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

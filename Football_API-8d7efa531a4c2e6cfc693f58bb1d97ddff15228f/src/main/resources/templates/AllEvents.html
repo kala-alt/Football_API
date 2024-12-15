@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Show all matches</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+        <div>
+            <form th:action="@{/allEvents}" method="get">
+                <input type="date" name="date" th:value="${selected_date}" id="date">
+                <input type="hidden" name="type" value="NewDate">
+                <button type="submit">Apply</button>
+            </form>
+
+            <div th:if="${events.isEmpty()}" class="body">
+                <h2>No Matches for the selected day!</h2>
+            </div>
+
+            <table>
+                <tbody>
+                    <tr th:each="p : ${events}">
+                        <td>
+                            <a th:href="@{matchDetails(id=${p.id})}">
+                                <img th:src="${matchService.getTeamLogoAsBase64(teamService.findTeamViaName(p.getHome_team()).get(0).getLogo_img())}" 
+                                     alt="Home team image!" id="logoHomeTeam">
+                                <span id="home_team" th:text="${p.home_team}"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <span id="time" th:style="${p.finished} == false ? 'display: none;' : ''" th:text="${p.home_goals() + ':' + p.away_goals()}"></span>
+                            <span id="time" th:style="${!p.finished} == false ? 'display: none;' : ''" th:text="${p.time}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{matchDetails(id=${p.id})}">
+                                <img th:src="${matchService.getTeamLogoAsBase64(teamService.findTeamViaName(p.getAway_team()).get(0).getLogo_img())}" 
+                                     alt="Away team image!" id="logoAwayTeam">
+                                <span id="away_team" th:text="${p.away_team}"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+                    <!-- <a href="MatchDetails.html">
+                        <img src="start.jpg" alt="Start match!" href="MatchDetails.html">
+                    </a> -->
+        </div>
+
+
+        <a href="https://github.com/kala-alt" id="githubA"><img th:src="@{/github.png}" alt="Github image!"></a>
+
+
+        <!-- <footer>
+            <form method="get" th:action="@{/sendFooterEmail}">
+
+                <label for="Subject">Subject:</label>
+                <input type="text"name="Title">
+
+                <label for="message">Message:</label>
+                <textarea name="MessageContent" id="message"></textarea>
+
+                <button type="submit">Send</button>
+            </form>
+        </footer> -->
+
+        <style>
+            /* footer {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #022a83;
+                color: #fff;
+                padding: 10px;
+            }
+
+
+            footer input, footer textarea{
+                margin-right: 35px;
+                width: 450px;
+                margin-left: 5px;
+                font-size: 30px;
+            }
+
+            footer label{
+                font-size: 20px;
+            }
+
+            footer button{
+                width: 90px;
+                height: 50px;
+            } */
+
+
+          
+            table {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 35px;
+                color: black;
+                margin: auto;
+                width: auto;
+            }
+
+            tbody {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 0;
+            }
+
+            tr {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                margin-block: 0.4%;
+                background-color: white;
+                width: 100%;
+                border: 1px solid black;
+                border-radius: 10px;
+                padding-left: 5%;
+            }
+
+            td {
+                flex: 1;
+                text-align: left;
+                padding: 0.5%;
+                word-break: break-word;
+            }
+
+            tr:hover {
+                background-color: #e2e2e2;
+            }
+
+            table img {
+                width: 60px;
+            }
+           
+            html{
+                height: 100%;
+                width: 100%;
+           }
+
+            h2{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                font-weight: 30px;
+                color: red;
+            }
+
+            a{
+                text-decoration: none;
+                color: black;
+            }
+
+            form{
+                margin-top: 25px;
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: row;
+                justify-content: left;
+            }
+
+            input{
+                width: 15%;
+                font-size: 30px;
+                text-align: center;
+            }
+
+            button{
+                margin-left: 20px;
+                font-size: 20px;
+                border-radius: 10px;
+                width: 15%;
+            }
+
+            #githubA img{
+                width: 200px; 
+                height: auto;
+            }
+
+            #githubA{
+                position: fixed;
+                bottom: 20px;
+                right: 20px;     
+                z-index: 1000;
+            }
+
+
+            @media screen and (max-width: 768px) {
+
+                form{
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                input{
+                    width: 50%;
+                    font-size: 20px;
+                }
+
+                button{
+                    width: 40%;
+                }
+
+                table h2{
+                    font-size: 20px;
+                }
+
+                td{
+                    flex-wrap: unset;
+                }
+
+                table{
+                    margin: 0;
+                    width: 100%;
+                    font-size: 20px;
+                }
+
+                tr{
+                    padding-left: 0;
+                    margin-block: 2%;
+                }
+                
+                a{
+                    padding: 0;
+                }
+
+                #matchDate{
+                    display: none;
+                }
+
+                footer form{
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                footer label, footer button{
+                    margin-top: 10px;
+                }
+
+
+                #githubA img{
+                    width: 120px; 
+                    height: auto;
+                }
+
+            }
+            
+        </style>
+    </body>
+
+    </html>

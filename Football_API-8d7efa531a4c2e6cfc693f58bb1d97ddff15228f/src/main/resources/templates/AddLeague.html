@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Add League</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+
+        <form th:if="${userAdmin}" method="post" th:action="@{/allEvents(type=${'addLeague'})}" th:object="${leagueEntity}" enctype="multipart/form-data">
+            
+            <label for="pictureFl">Logo</label>
+            <input type="file" name="pictureFile" id="pictureFl" accept="image/*" required>
+        
+            <label for="CountryFl">Country flag</label>
+            <input type="file" name="countryFlag" id="CountryFl" accept="image/*" required>
+            
+            <label for="country">Country</label>
+            <input type="text" th:field="*{country}" id="country" required>
+
+            <label for="code">Code</label>
+            <input type="text" th:field="*{code}" id="code" required>
+        
+            <label for="numOfTeams">Number of teams</label>
+            <input type="number" th:field="*{numberOfTeams}" id="numOfTeams" required>
+        
+            <label for="name">League name</label>
+            <input type="text" th:field="*{name}" id="name" required>
+        
+            <button type="submit">Add</button>
+        </form>
+
+        <div th:unless="${userAdmin}" id="SessionExpired">Your session expired! Please Login!</div>
+        
+
+        <style>
+
+            #SessionExpired{
+                display: block;
+                text-align: center;
+                margin-top: 10%;
+                font-size: 50px;
+                color: red;
+            }
+
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 75%;
+                margin: auto;
+                padding: auto;
+            }
+
+            input{
+                font-size: 25px;
+            }
+
+            label{
+                margin-top: 5px;
+                font-size: 30px;
+            }
+
+            button{
+                height: 30px;
+                font-size: 25px;
+                margin-top: 10px;
+            }
+            
+        </style>
+    </body>
+
+</html>

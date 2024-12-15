@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+
+            <form th:if="${userEmail != null}"  method="post" th:action="@{/sendContactEmail}">
+                <label for="Subject"><img th:src="@{title.png}" alt="Subject Image">Subject:</label>
+                <input type="text"name="Title" required>
+
+                <input type="hidden" th:value="${userEmail}" name="userEmail">
+                <input type="hidden" th:value="${userId}" name="userId">
+
+                <label for="message"><img th:src="@{message.png}" alt="Message Image">Message:</label>
+                <textarea name="MessageContent" id="message" required></textarea>
+
+                <button type="submit"><img th:src="@{send.png}" alt="Send Image">Send</button>
+            </form>
+        
+        <div th:unless="${userEmail != null}" id="SessionExpired">Your session expired! Please Login!</div>
+
+        <style>
+
+            #SessionExpired{
+                display: block;
+                text-align: center;
+                margin-top: 10%;
+                font-size: 50px;
+                color: red;
+            }
+
+            img{
+                width: 35px;
+                margin-right: 5px;
+            }
+
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 75%;
+                margin: auto;
+                padding: auto;
+                margin-top: 40px;
+            }
+
+            input{
+                    font-size: 25px;
+                    margin-bottom: 25px;
+            }
+
+            label{
+                    margin-top: 5px;
+                    font-size: 30px;
+            }
+
+            textarea{
+                height: 200px;
+                font-size: 25px;
+            }
+
+            button{
+                    height: 50px;
+                    width: 250px;
+                    font-size: 25px;
+                    margin-top: 25px;
+            }
+
+
+
+
+            /* footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                padding: 10px;
+            } */
+        </style>
+    </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Show My Account</title>
+    
+    <style>
+        form{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 80%;
+            height: 80%;
+            margin: auto;
+        }
+
+        input{
+            margin-bottom: 10px;
+        }
+
+        .showAccountData{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+        }
+
+        label{
+            margin-top: 40px;
+            padding-left: 5%;
+            width: 80%;
+            margin: auto;
+            margin-top: 15px;
+            border: 1px solid black;
+            border-radius: 20px;
+            font-size: 30px;
+            display: flex;
+        }
+
+        span{
+            color: gray;
+            padding-left: 10px;
+        }
+
+        img{
+            width: 100px;
+        }
+
+        .decor{
+            max-width: 95%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding-left: 25%; 
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+       
+    </style>
+    
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}"></div>
+
+        <div id="main" th:if="${loggedUsername != null}">
+            <div class="decor">
+                <img th:src="@{/account.png}" alt="My Account image">
+                <h1>My Account!</h1>
+            </div>
+            <div class="showAccountData">
+                <label><img th:src="@{/user.png}" alt="Username Image">Username: <span th:text="${accountModel.username}"></span></label>
+                
+                <label><img th:src="@{/key.png}" alt="API key Image">Api key: <span th:text="${accountModel.api_key}" id="api_key"></span></label>
+            
+                <label th:if="${accountModel.isAdmin}"><img th:src="@{/admin.png}" alt="Admin Image">Your are ADMIN!</label>
+
+                <label>Last Login: <span th:text="${accountModel.getStringLast_login}"></span></label>
+
+                <label>Registration date:  <span th:text="${accountModel.getStringReg_date}"></span></label>
+
+                <label><img th:src="@{/query.png}" alt="Queries Image">Executed queries this month:  <span th:text="${accountModel.queriesThisMonth}"></span></label>
+            </div>
+
+            <a id="contact" href="/ContactUs"><img th:src="@{support.png}" alt="Contact Us Image"> Contact Us</a>
+            <a id="contact" href="/showQueries"><img th:src="@{queryStructure.png}" alt="Show Queries Structure Image">Queries Structure</a>
+
+            <!-- <div th:if="${!accountModel.isAdmin && userAdmin == false}">
+                <form method="post" th:action="@{/requestNewAdmin}">
+                    <input type="hidden" name="userEmail" th:value="${accountModel.email}">
+                    <button type="submit">Request to promote me to admin!</button>
+                </form>
+            </div> -->
+        </div>
+
+        <div th:unless="${loggedUsername != null}" id="SessionExpired">Your session expired! Please Login!</div>
+        <style>
+            #SessionExpired{
+                display: block;
+                text-align: center;
+                margin-top: 10%;
+                font-size: 50px;
+                color: red;
+            }
+
+            #main h1{
+                font-size: 50px;
+                width: 20%;
+            }
+
+            label, span{
+                text-wrap: wrap;
+            }
+
+            form{
+                margin-top: 20px;
+                width: 30%;
+                height: 35px;
+                font-size: 30ch;
+            }
+
+            .showAccountData img{
+                width: 40px;
+                margin-right: 5px;
+            }
+
+            #contact{
+                display: flex;
+                flex-direction: row;
+                justify-content: right;
+                margin-top: 10px;
+                margin-right: 10%;                
+                font-size: 35px;
+            }
+
+            #contact img{
+                width: 35px;
+                margin-right: 5px;
+            }
+
+            @media screen and (max-width: 768px) {
+                label, span{
+                    flex-wrap: wrap;
+                }
+
+                label{
+                    margin-top: 25px;
+                }
+
+                h1{
+                    font-size: 30px;
+                }
+
+                img{
+                    width: 60px;
+                }
+
+                .decor{
+                    max-width: 95%;
+                    margin-bottom: 20px;
+                    padding-left: 10%; 
+                }
+
+                #api_key{
+                    text-wrap: balance;
+                }
+            }
+        </style>
+
+    </body>
+    </html>

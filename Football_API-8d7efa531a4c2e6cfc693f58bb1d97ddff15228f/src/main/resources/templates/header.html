@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header th:fragment="common-header">
+        <div class="container">
+            <a class="maina" href="/allEvents">
+                <h1>Football API</h1>
+            </a>
+
+            <nav>
+                <div class="hamburger-menu" onclick="toggleMenu()">
+                    &#9776;
+                </div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/allEvents"><img th:src="@{/home.png}" alt="Home Image" class="headerImgs">Home</a>
+                        </li>
+                        <li th:if="!${loggedUsername}"><a href="/login"><img th:src="@{/log.png}" alt="Login Image"
+                                    class="headerImgs">Login</a></li>
+                        <li th:if="!${loggedUsername}"><a href="/register"><img th:src="@{/reg.png}"
+                                    alt="Register Image" class="headerImgs">Register</a></li>
+
+                        <li th:if="${loggedUsername}"><a href="/myAccount"><img th:src="@{/log.png}"
+                                    alt="My Account Image" class="headerImgs">Account</a></li>
+                        <li th:if="${loggedUsername}"><a href="/login"><img th:src="@{/logout.png}" alt="Exit Image"
+                                    class="headerImgs">Exit</a></li>
+                        <li th:if="${userAdmin == true && loggedUsername != null}">
+                            <a href="/adminActions"><img th:src="@{/adminImg.png}" alt="Admin Image"
+                                    class="headerImgs">Admin Actions</a>
+                            <ul id="adminActions">
+                                <li><a href="/addMatch"><img th:src="@{/addMatch.png}" alt="Admin Image" class="headerImgs">Add Match</a></li>
+                                <li><a href="/addPlayer"><img th:src="@{/newPlayer.png}" alt="Admin Image" class="headerImgs">Add Player</a></li>
+                                <li><a href="/addTeam"><img th:src="@{/footballTeam.png}" alt="Admin Image" class="headerImgs">Add Team</a></li>
+                                <li><a href="/addLeague"><img th:src="@{/addLeague.png}" alt="Admin Image" class="headerImgs">Add League</a></li>
+                                <li><a href="/CorrespondenceEmails"><img th:src="@{/writeMail.png}" alt="Admin Image" class="headerImgs">Write Email</a></li>
+                                <li><a href="/search"><img th:src="@{/search.png}" alt="Admin Image" class="headerImgs">Search</a></li>
+                                <li><a href="/VerifiedActions"><img th:src="@{/verifiedActions.png}" alt="Admin Image" class="headerImgs">Verified Actions</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <style>
+            .maina {
+                width: 40%;
+            }
+
+            html {
+                font-size: 100%;
+                height: 25%;
+            }
+
+            nav {
+                padding: 0;
+                width: 40%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            /* ul{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                } */
+
+
+            .container {
+                flex-wrap: wrap;
+                /* background-color: black; */
+                border: solid black 1px;
+                width: 100%;
+                height: 20%;
+                position: sticky;
+                display: flex;
+                flex-direction: row;
+                font-size: 50px;
+                background-color: #ccc;
+            }
+
+            h1 {
+                width: 60%;
+                margin: auto;
+                font-size: 80%;
+                color: black;
+                font-weight: 300;
+                text-wrap: nowrap;
+            }
+
+            nav a {
+                margin: 0;
+                padding: 0;
+            }
+
+            nav > a {
+                margin-top: 10px;
+            }
+
+            li a {
+                font-size: 60px;
+                height: 80%;
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                width: 100%;
+            }
+
+            .menu ul {
+                width: 100%;
+                height: 100%;
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            .menu ul li {
+                margin: 0;
+
+            }
+
+            .menu ul li a {
+                text-decoration: none;
+                color: black;
+                font-size: 25px;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+
+            .hamburger-menu {
+                display: none;
+                font-size: 30px;
+                cursor: pointer;
+            }
+
+            .menu>ul {
+                padding: 5px;
+            }
+
+            .headerImgs {
+                width: 40px;
+                margin-right: 5%;
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 10px 15px;
+                margin: auto;
+            }
+
+            #adminActions{
+                display: none;
+                padding: 0;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: grey;
+                border: 1px solid #ccc;
+                z-index: 1000;
+            }
+
+            #adminActions img{
+                margin-right: 5px;
+            }
+
+            li:hover #adminActions {
+                display: block;
+                position: absolute;
+                height: 100%;
+            }
+
+            #adminActions li {
+                display: block;
+                width: 100%;
+                font-size: 25px;
+                white-space: nowrap;
+                background-color: grey;
+                border: 1px solid #ccc;
+            }
+
+
+            @media screen and (max-width: 768px) {
+                .menu {
+                    display: none;
+                    flex-direction: column;
+                    background-color: #f8f8f8;
+                    position: absolute;
+                    margin-top: 20%;
+                    margin-right: 10%;
+                    width: 100%;
+                    z-index: 100;
+                }
+
+                h1 {
+                    margin: auto;
+                    display: flex;
+                    justify-content: center;
+                    padding: 0;
+                    width: 50%;
+
+                }
+
+                .menu ul {
+                    flex-direction: column;
+                    padding: 0;
+                }
+
+                .menu ul li {
+                    margin-left: -40%;
+                    margin-bottom: 10px;
+                    background-color: grey;
+                    margin: 0;
+                    width: auto;
+                }
+
+                li a {
+                    width: 100%;
+                }
+
+                h1 {
+                    width: 90%;
+                    margin: auto;
+                }
+
+                .hamburger-menu {
+                    display: block;
+                    position: absolute;
+                    top: 20%;
+                    right: 5%;
+                    margin: auto;
+                }
+
+                nav {
+                    width: 10%;
+                }
+
+                .menu.show {
+                    display: flex;
+                    margin-top: 45%;
+                    right: -10%;
+                }
+
+                .menu.show li {
+                    border-bottom: 1px solid black;
+                }
+
+                img {
+                    width: 25px;
+                }
+            }
+        </style>
+
+        <script>
+            function toggleMenu() {
+                var menu = document.querySelector('.menu');
+                menu.classList.toggle('show');
+            }
+        </script>
+    </header>
+</body>
+
+</html>

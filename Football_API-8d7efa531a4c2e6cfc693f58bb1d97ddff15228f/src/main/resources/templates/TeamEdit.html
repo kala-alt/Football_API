@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Login</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+        <div>
+            <form action="#" th:action="@{/logged}" method="post" enctype="multipart/form-data">
+                <!-- <label for="username">Username</label>
+                <input id="username" name = "username" type="text">
+
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password">
+                <button type="submit">Submit</button> -->
+            </form>
+        </div>
+    </body>
+</html>

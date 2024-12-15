@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>404 Page Not Found!</title>
+        
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+
+        <div id="NotFound">
+            <img th:src="@{/static/404.png}" alt="Page Not Found!">
+            <h1>404! This page doesn`t exist!</h1>
+        </div>
+        
+
+        <style>
+            #NotFound{
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                margin-top: 50px;
+            }
+
+            #NotFound h1{
+                width: 50%;
+                font-size: 60px;
+                font-weight: bold;
+                color: red;
+                margin: 0;
+                padding-top: 20px;
+            }
+
+            #NotFound img{
+                width: 200px;
+            }
+
+
+            @media screen and (max-width: 768px){
+                #NotFound h1{
+                    font-size: 40px;
+                    text-wrap: wrap;
+                    width: 100%;
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+
+                #NotFound img{
+                width: 100px;
+                }
+
+                #NotFound{
+                    text-align: center;
+                    align-items: center;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+            }
+
+        </style>
+    </body>
+</html>

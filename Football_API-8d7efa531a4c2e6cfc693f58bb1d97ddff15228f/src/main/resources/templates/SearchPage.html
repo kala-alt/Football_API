@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Search what you want!</title>
+    </head>
+
+    <body>
+        <div th:replace="~{header :: common-header}" ></div>
+        <div>
+            <form th:action="@{/searchResults}" method="post" id="searchForm">
+                <label for="searchBar">Type a player, team or league</label>
+                <input id="searchBar" name="searchBar" type="text" required>
+
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- show leagues -->
+            <div th:if="${!#lists.isEmpty(leagues)}">
+                <h2>Leagues</h2>
+                    <div class="divLeagues" th:each="league : ${leagues}">
+                        <label>League name: <span th:text="${league.name}"></span></label>
+                        <label>Code: <span th:text="${league.code}"></span></label>
+                        <label>Country: <span th:text="${league.country}"></span></label>
+                        <label>Number of teams: <span th:text="${league.numberOfTeams}"></span></label>
+
+                        <!-- <form method="post" th:action="@{/LeagueEdit}">
+                            <input type="hidden" th:value="${league.id}" name="idParam">
+                            <button type="submit">Show more</button>
+                        </form> -->
+                    </div>
+            </div>
+
+            <!-- show players -->
+            <div th:if="${!#lists.isEmpty(players)}">
+                <h2>Players</h2>
+                    <div class="divPlayers" th:each="players : ${players}">
+                        <label>First name: <span th:text="${players.first_name}"></span></label>
+                        <label>Last name: <span th:text="${players.last_name}"></span></label>
+                        <label>Date of birth: <span th:text="${players.date_Of_Birth}"></span></label>
+                        <label>Nationality: <span th:text="${players.nationality}"></span></label>
+                        <label>Team: <span th:text="${players.team}"></span></label>
+                        <label>Position: <span th:text="${players.position}"></span></label>
+                        <label>Retired: <span th:text="${players.retired}"></span></label>
+
+                        <form method="post" th:action="@{/Retire}">
+                            <input type="hidden" th:value="${players.playerId}" name="playerId">
+                            <button type="submit">Retire?</button>
+                        </form>
+
+
+                        <form method="post" th:action="@{/Transfer}">
+                            <input type="hidden" th:value="${players.playerId}" name="playerId">
+                            <input required type="text" name="newTeam" id="newTeamInput" list="playersTeams" placeholder="New Team" />
+                        <datalist id="playersTeams">
+                            <option th:each="t : ${plTeams}" 
+                                    th:value="${t.getName()}" 
+                                    th:text="${t.getName() + ' (' + t.getCity() + ')'}">
+                            </option>
+                        </datalist>
+
+                            <button type="submit">Transfer</button>
+                        </form>
+                    </div>
+            </div>
+
+            <!-- show teams - works perfectly-->
+            <div th:if="${!#lists.isEmpty(teams)}">
+                <h2>Teams</h2>
+                    <div class="divTeams" th:each="teams : ${teams}">
+                        <label>Team name: <span th:text="${teams.name}"></span></label>
+                        <label>City: <span th:text="${teams.city}"></span></label>
+                        <label>Stadium: <span th:text="${teams.stadium}"></span></label>
+                        <label>League name: <span th:text="${teams.league_name}"></span></label>
+
+                        <form method="post" th:action="@{/TeamEdit}">
+                            <input type="hidden" th:value="${teams.id}" name="idParam">
+                            <button type="submit">Show more</button>
+                        </form>
+                    </div>
+            </div>
+        </div>
+
+        <style>
+
+            body{
+                font-size: 30px;
+            }
+
+            #searchForm{
+                margin-top: 5%;
+                margin-left: 25%;
+                font-size: 30px;
+                align-items: center;
+            }
+
+            #searchForm input{
+                margin-left: 10px;
+                font-size: 25px;
+            }
+
+            button{
+                font-size: 20px;
+                margin-left: 5px;
+            }
+
+            input{
+                font-size: 25px;
+                margin-top: 15px;
+            }
+
+            .divTeams label, .divPlayers label, .divLeagues label{
+                display: block;
+                margin-left: 30px;
+                margin-bottom: 10px;
+            }
+
+        </style>
+    </body>
+</html>

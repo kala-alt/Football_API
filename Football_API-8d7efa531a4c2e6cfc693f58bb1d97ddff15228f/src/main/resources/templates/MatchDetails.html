@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Match info!</title>
+    </head>
+
+    <body>
+
+        <div th:replace="~{header :: common-header}" ></div>
+
+        <div th:if="${!match.finished}" th:text="${match.home_team} + ' vs ' + ${match.away_team}" id="titleNotFinished"></div>
+        <!-- <img th:src="${homeTeamLogo}" alt="Home team image!">
+        <img th:src="${awayTeamLogo}" alt="Away team image!"> -->
+
+            <div th:unless="${!match.finished}" id="mainContainer">
+                <!-- <img src="${match.img}"> -->
+
+                <span th:text="${match.date} + ' '
+                + ${match.home_team} + ' '
+                + ${match.home_goals()} + ':' 
+                + ${match.away_goals()} + ' ' 
+                + ${match.away_team}"></span>
+            </div>
+
+        <div>Round <span th:text="${match.round}"></span></div>
+
+
+        <div id="actions">
+            <div id="goals_Container">
+                <img th:src="@{/goal.png}" alt="Goal Image">
+                <h1>Goals:</h1>
+
+                <span class="noData" th:if="${match.goals.isEmpty()}">No data!</span>
+
+                <div id="goals" th:each="g : ${match.goals}">
+                    <span th:text="${g.minute} + '` ' + ${g.player}"></span>
+                </div>
+            </div>
+
+            <div id="yellow_cards_Container">
+                <img th:src="@{/yellowCard.png}" alt="Yellow cards image">
+                <h1>Yellow cards:</h1>
+
+                <span class="noData" th:if="${match.yellow_cards.isEmpty()}">No data!</span>
+
+                <div id="yellow_cards" th:each="g : ${match.yellow_cards}">
+                    <span th:text="${g.minute} + '` ' + ${g.player}"></span>
+                </div>
+            </div>
+
+            <div id="red_cards_Container">
+                <img th:src="@{/redCard.png}" alt="Red cards image">
+                <h1>Red cards:</h1>
+                
+                <span class="noData" th:if="${match.red_cards.isEmpty()}">No data!</span>
+
+                <div id="red_cards" th:each="g : ${match.red_cards}">
+                    <span th:text="${g.minute} + '` ' + ${g.player}"></span>
+                </div>
+            </div>
+        </div>    
+
+        <div th:if="${userAdmin}" id="addActions">
+        <span>Add actions:</span>
+            <a th:href="@{AddAction(id=${match.id})}">
+                <img th:src="@{/addActionsImage.png}" alt="Add Action Image">
+            </a>
+        </div>
+
+        <div th:if="${userAdmin}">
+            <form th:unless="${match.finished}" th:action="@{/allEvents(finished=${match.finished}, id=${match.id}, type=${'finished'})}" method="post">
+                <button  type="submit">Match is NOT finished yet!</button>
+            </form>
+        </div>
+        
+        <form th:if="${match.finished}" th:action="@{/allEvents(finished=${match.finished}, id=${match.id}, type=${'finished'} )}" method="post">
+            <span>The match has already ended!</span>
+        </form>
+        
+    <style>
+        #actions{
+            margin: 5%;
+            margin-top: 1%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+
+        #actions>div{
+            border: 2px solid black;
+            width: 30%;
+            height: 25%;
+        
+            align-items: center;
+            font-size: 30px;
+        }
+
+        #goals, #yellow_cards, #red_cards{
+            margin-top: 5px;
+            border-top: 1px solid black;
+            width: 100%;
+        }
+
+        img{
+            width: 50px;
+            margin-left: 0;
+        }
+
+        #mainContainer, #titleNotFinished{
+            margin-top: 25px;
+            width: 100%;
+            font-size: 45px;
+            text-align: center;
+        }
+
+        #actions h1{
+            font-size: 25px;
+        }
+
+        #addActions{
+            font-size: 40px;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+        }
+
+        form span{
+            font-size: 40px;
+        }
+
+        span a, span{
+            margin: 0;
+            padding-left: 0;
+        }
+
+        .noData{
+            display: block;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid #000;
+            margin-left: 20px;
+            width: 100%;
+            font-size: 30px;
+            color: red;
+            margin: auto;
+        }
+
+
+        @media screen and (max-width: 768px) {
+
+            #actions{
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            #actions>div{
+                width: 80%;
+                font-size: 20px;
+                margin-top: 20px;
+            }
+
+            #mainContainer, #titleNotFinished{
+                
+            padding: 0;
+            margin: 0;
+            margin-top: 25px;
+            width: 100%;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+
+        }
+
+    </style>
+
+    </body>
+</html>
