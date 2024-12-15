@@ -30,8 +30,10 @@
                             </a>
                         </td>
                         <td>
-                            <span id="time" th:style="${p.finished} == false ? 'display: none;' : ''" th:text="${p.home_goals() + ':' + p.away_goals()}"></span>
-                            <span id="time" th:style="${!p.finished} == false ? 'display: none;' : ''" th:text="${p.time}"></span>
+                            <a th:href="@{matchDetails(id=${p.id})}">
+                                <span id="time" th:style="${p.finished} == false ? 'display: none;' : ''" th:text="${p.home_goals() + ':' + p.away_goals()}"></span>
+                                <span id="time" th:style="${!p.finished} == false ? 'display: none;' : ''" th:text="${p.time}"></span>
+                            </a>
                         </td>
                         <td>
                             <a th:href="@{matchDetails(id=${p.id})}">
